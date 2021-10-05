@@ -1,0 +1,11 @@
+#!/bin/bash
+answer=$1
+if [ $2 -ge $answer ]
+then
+answer=$2
+fi
+if [ $3 -ge $answer ]
+then
+answer=$3
+fi
+echo $answer

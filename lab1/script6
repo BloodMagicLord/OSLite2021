@@ -1,0 +1,6 @@
+#!/bin/bash
+begin="^\[[[:space:]]*[0-9]*\.?[0-9]*\] "
+warning="\(WW\)"
+info="\(II\)"
+cat /var/log/anaconda/X.log | grep -E "$begin$warning" | sed -E "s/$warning/Warning:/" > full.log
+cat /var/log/anaconda/X.log | grep -E "$begin$info" | sed -E "s/$info/Information:/" >> full.log

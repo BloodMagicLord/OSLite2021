@@ -1,0 +1,9 @@
+#!/bin/bash
+result=""
+read next
+while [ $next != "q" ]
+do
+result=$result$next
+read next
+done
+echo $result
