@@ -1,9 +1,13 @@
 #!/bin/bash
 result=""
-read next
-while [ $next != "q" ]
+while :
 do
-result=$result$next
 read next
-done
+if [ $next != "q" ]
+then
+result=$result$next
+else
 echo $result
+exit 0
+fi
+done

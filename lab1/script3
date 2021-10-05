@@ -1,8 +1,5 @@
 #!/bin/bash
-echo "1. nano"
-echo "2. vi"
-echo "3. links"
-echo "4. exit"
+echo -e "1. nano\n2. vi\n3. links\n4. exit"
 let choice=0
 read choice
 case $choice in

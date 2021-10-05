@@ -1,0 +1,3 @@
+#!/bin/bash
+word="[A-Za-z]\{4\}"
+man bash | grep -o "$word" | sort | uniq -i -c | sort -n -k1 | tail -3

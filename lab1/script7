@@ -1,2 +1,6 @@
 #!/bin/bash
+name="[0-9a-zA-Z\.\-_]+"
+domain="[0-9a-zA-Z\-_]+"
+mail="$name@$domain\.[a-z]+"
+grep -E -r -o -h -a "$mail" /etc/ | awk '{print $0, ","}' > emails.lst
 
