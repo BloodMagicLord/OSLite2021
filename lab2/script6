@@ -1,0 +1,17 @@
+#!/bin/bash
+maxVm=0
+maxVmPid=""
+pids=$(ps -A -o pid --no-headers)
+
+for pid in $pids
+do
+	vm=$( grep -s VmSize "/proc/$pid/status" | awk '{ print $2 }')
+	if [[ $maxVm < $vm ]]
+	then
+		maxVm=$vm
+		maxVmPid=$pid	
+	fi
+done
+echo $maxVmPid
+
+

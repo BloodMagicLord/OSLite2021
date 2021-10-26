@@ -1,0 +1,5 @@
+#!/bin/bash
+ps -u user -o pid,cmd --no-headers > tmp
+cat tmp | wc -l > sc1answer.lst
+cat tmp | awk '{ print $1 ":" $2 }' >> sc1answer.lst
+rm tmp

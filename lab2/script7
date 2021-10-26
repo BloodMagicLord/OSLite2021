@@ -1,0 +1,28 @@
+#!/bin/bash
+
+pids=$(ps -A -o pid --no-header)
+for pid in $pids
+do	
+	if [[ -f "/proc/$pid/io" ]]
+	then
+		rby=$(grep -s "read_bytes" "/proc/$pid/io" | awk '{ print $2 }')
+		echo $pid $rby >> tmp
+	fi 
+done
+
+sleep 3s
+
+while read line
+do
+	pid=$(echo $line | awk '{ print $1 }')
+	rby1=$(echo $line | awk '{ print $2 }')
+	if [[ -f "/proc/$pid/io" ]]
+	then	
+		cmd=$(tr -d '\0' </proc/$pid/cmdline)
+		rby2=$(grep -s "read_bytes" "/proc/$pid/io" | awk '{ print $2 }')
+		rby=$(echo $rby2 $rby1 | awk '{ print $1-$2}')
+		echo $pid ":" $cmd ":" $rby >> sc7answer.lst
+	fi
+done < tmp
+cat sc7answer.lst | sort -n -k5 | tail -3
+rm tmp

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+pids=$(ps -A -o pid --no-header --sort=ppid)
+
+for pid in $pids
+do
+	dir="/proc/$pid"
+	ppid=$( grep -s PPid "$dir/status" | awk '{ print $2 }' )
+	sum=$( grep -s "sum_exec_runtime" "$dir/sched" | awk '{ print $3 }')
+	nr=$( grep -s "nr_switches" "$dir/sched" | awk '{ print $3 }')
+	if [[ ! (-z $nr || -z $sum || -z $ppid) ]]
+	then
+		art=$(echo $sum $nr | awk '{ print $1/$2 }')
+		if [ $art == 0 ]
+		then
+			art=0.0
+		fi
+		echo "ProcessID= $pid : Parent_ProcessID= $ppid : Average_Running_Time= $art" >> sc4answer.lst
+	fi
+done

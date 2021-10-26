@@ -1,0 +1,2 @@
+#!/bin/bash
+ps --pid $$ --ppid $$ -N -o pid --no-headers --sort stime | tail -1 | awk '{ print $1 }'

@@ -1,0 +1,29 @@
+#!/bin/bash
+
+lastPpid=1
+artSum=0.0
+artCount=1.0
+ppidParam='Parent_ProcessID= [0-9]+'
+artParam='Average_Running_Time= [0-9]+.[0-9]+'
+arcpParam='Average_Running_Children_of_ParentID='
+
+while read line
+do
+	ppid=$(echo $line | grep -E -o "$ppidParam" | awk '{ print $2 }')
+	if [[ $lastPpid -eq $ppid ]]
+	then
+		artCount=$(echo "$artCount + 1.0" | bc -l)
+		art=$(echo $line | grep -E -o "$artParam" | awk '{ print $2 }')
+		artSum=$(echo "$artSum + $art" | bc -l)
+	else
+		artSum=$(echo $artSum $artCount | awk '{ print $1/$2 }')
+		echo "$arcpParam $lastPpid is $artSum" >> sc5answer.lst
+		artCount=1.0
+		artSum=$(echo $line | grep -E -o "$artParam" | awk '{ print $2 }')
+	fi
+	echo $line >> sc5answer.lst
+	lastPpid=$ppid
+done < sc4answer.lst
+
+artSum=$(echo $artSum $artCount | awk '{ print $1/$2 }')
+echo "$arcpParam $lastPpid is $artSum" >> sc5answer.lst
