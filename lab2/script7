@@ -10,7 +10,7 @@ do
 	fi 
 done
 
-sleep 3s
+sleep 1m
 
 while read line
 do
