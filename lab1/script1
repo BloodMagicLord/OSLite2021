@@ -1,10 +1,10 @@
 #!/bin/bash
 answer=$1
-if [ $2 -ge $answer ]
+if [ $(echo "$2 >= $answer" | bc) -eq 1 ]
 then
 answer=$2
 fi
-if [ $3 -ge $answer ]
+if [ $(echo "$3 >= $answer" | bc) -eq 1 ]
 then
 answer=$3
 fi
