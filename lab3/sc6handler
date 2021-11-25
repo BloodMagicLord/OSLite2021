@@ -1,0 +1,35 @@
+#!/bin/bash
+
+echo $$ > .pid
+
+answer=1
+mode="+"
+
+usr1() {
+	mode="+"
+}
+usr2() {
+	mode="*"
+}
+sigterm() { 
+	mode="sigterm"
+}
+
+trap "usr1" USR1
+trap "usr2" USR2
+trap "sigterm" SIGTERM
+
+while true
+do
+	case $mode in
+		[+*])
+			answer=$(( $answer $mode 2 ))
+			echo "answer = $answer"
+			;;
+		sigterm)
+			echo "exit"
+			exit
+			;;
+	esac
+	sleep 1s
+done	

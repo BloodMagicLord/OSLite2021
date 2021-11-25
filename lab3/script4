@@ -1,0 +1,17 @@
+#!/bin/bash
+
+task=/home/user/lab3/infTask
+
+$task &
+pid1=$!
+
+$task &
+pid2=$!
+
+$task &
+pid3=$!
+
+echo $pid1 $pid2 $pid3
+
+cpulimit -l 10 -p $pid1 &
+kill $pid3

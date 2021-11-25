@@ -1,0 +1,5 @@
+#!/bin/bash
+
+reportFile=~/report
+at now +1 minute -f script1
+tail -f $reportFile &

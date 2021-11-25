@@ -1,0 +1,32 @@
+#!/bin/bash
+
+answer=1
+mode="+"
+number='[0-9]+'
+
+(tail -f pipe) |
+while true
+do
+	read LINE
+	case $LINE in
+		QUIT)
+			echo "exit"
+			killall tail
+			killall "sc5gen"
+			exit
+			;;
+		[+*])
+			mode=$LINE
+			echo "mode changed to $LINE"
+			;;
+		*)
+			if [[ $LINE =~ $number ]]
+			then
+				answer=$(($answer $mode $LINE))
+				echo "answer = $answer"	
+			else
+				echo "invalid data"
+			fi
+			;;
+	esac
+done

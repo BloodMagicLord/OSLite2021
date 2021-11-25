@@ -1,0 +1,11 @@
+#!//bin/bash
+
+startTime="`date +%F_%T`"
+reportFile=~/report
+
+mkdir ~/test && {
+		echo "catalog test was created successfully" > $reportFile
+		touch ~/test/$startTime
+		}
+
+ping www.net_nikogo.ru || echo "$startTime: host doesn't exist" >> $reportFile
