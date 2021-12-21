@@ -1,0 +1,33 @@
+#!/bin/bash
+
+userDir="/home/user"
+restoreDir="/home/user/restore"
+
+date="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+backupName="^Backup-$date"
+
+lastBackup=$(ls $userDir | grep -E "$backupName" | sort -n | tail -1)
+
+if [[ -z "$lastBackup" ]]
+then
+	echo "Error: No backup to restore"
+else
+	backupDir=$userDir/$lastBackup
+	files=$(ls $backupDir)
+	if [[ ! -d $restoreDir ]]
+	then
+		mkdir $restoreDir
+	fi
+	for file in $files
+	do
+		echo $file
+		if [[ ! $file =~ $date ]]
+		then
+			echo "OK"
+			toCopy=$backupDir/$file
+			cp $toCopy $restoreDir
+		fi
+	done
+	echo "Success: files restores from $lastBackup"
+fi
+

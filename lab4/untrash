@@ -1,0 +1,93 @@
+#!/bin/bash
+
+trashDir="/home/.trash"
+trashLog="/home/.trash.log"
+correctAnswer='[YN]'
+correctName='[a-zA-Z0-9]'
+
+
+if [[ $# -ne 1 ]]
+then
+	echo "Error: wrong amount of arguments"
+	exit
+fi
+
+if [[ ! -f $trashLog ]]
+then
+	echo "Error: no logs for deleted files"
+	exit
+fi
+
+if [[ ! -d $trashDir ]]
+then
+	echo "Error: trash directory not found"
+	exit
+fi
+
+files=$(cat $trashLog | grep -E "$1 :" | awk '{print $1, $3 }' )
+
+if [[ -z $files ]]
+then
+	echo "No such files to restore"
+	exit
+fi
+
+for line in "$files"
+do
+	file=$(echo $line | awk '{print $1}')
+	name=$(echo $line | awk '{print $2}')
+	answer=""
+	echo "$file : restore this file?"
+	while [[ ! "$answer" =~ $correctAnswer  ]]
+	do
+		read -n 1 answer
+		echo
+	done
+
+	if [[ "$answer" == "Y" ]]
+	then
+		if [[ ! -d $(dirname "$file") ]]
+		then
+			echo "Cannot restore file in prev directory."
+			file="/home/$1"
+		fi
+		if [[ -f $file ]]
+		then
+			echo "File with prev name is already exists."
+			while [[ -f $file ]]
+			do
+				newName=""
+				echo "New name: "
+				read newName
+				if [[ "$newName" != "$1" && "$newName" =~ $correctName ]]
+				then
+					echo "OK"
+					break
+				else
+					echo "Invalid name. Try again."
+				fi
+			done
+			file="$(dirname $file)/$newName"
+		fi
+		ln $trashDir/$name $file
+		rm $trashDir/$name
+		sed -i "/$name/d" $trashLog
+		echo "Success: file restored"
+		exit
+	else
+		echo "Ladno"
+	fi
+done
+
+
+
+
+
+
+
+
+
+
+
+
+	

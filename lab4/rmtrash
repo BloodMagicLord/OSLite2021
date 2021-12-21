@@ -1,0 +1,36 @@
+#!/bin/bash
+
+trashDir="/home/.trash"
+trashLog="/home/.trash.log"
+file="$1"
+path=$(realpath $file)
+
+if [[ $# -ne 1 ]]
+then
+	echo "Error: Wrong amount of arguments"
+	exit
+fi
+
+if [[ ! -f $file ]]
+then
+	echo "Error: File does not exist"
+	exit
+fi
+
+if [[ ! -d $trashDir ]]
+then
+	mkdir $trashDir
+fi
+
+if [[ ! -f $trashLog ]]
+then
+	touch $trashLog
+fi
+
+nom=$(ls -a $trashDir | wc -l)
+((nom++))
+
+ln $file $trashDir/$nom && rm $file &&
+echo "$path : $nom" >> $trashLog &&
+echo "Success: $file removed" ||
+echo "Error: something gone wrong"
