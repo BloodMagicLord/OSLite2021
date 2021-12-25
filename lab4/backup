@@ -53,7 +53,7 @@ then
 
 	for file in $files
 	do
-		cp $sourceDir/$file $backupDircp
+		cp $sourceDir/$file $backupDir
 		newFiles+=("$file")
 	done
 
