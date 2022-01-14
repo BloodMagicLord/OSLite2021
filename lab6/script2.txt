@@ -1,0 +1,18 @@
+2.1
+hostname
+cd C:\LAB6
+mkdir shareTest
+net share temp="C:\LAB6\shareTest"
+
+2.2
+echo xcopy /y /z C:\LAB6\archlinux-2022.01.01-x86_64.iso \\LAPTOP-5F3T4OKM\temp > copyScript.cmd
+
+2.3
+schtasks /create /sc minute /tn copy /tr C:\LAB6\copyScript.cmd
+schtasks /query /tn copy 
+
+2.4
+taskkill /f /im xcopy.exe
+
+2.5
+comp /m C:\LAB6\archlinux-2022.01.01-x86_64.iso \\LAPTOP-5F3T4OKM\temp\archlinux-2022.01.01-x86_64.iso

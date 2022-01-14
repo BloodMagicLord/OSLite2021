@@ -1,0 +1,19 @@
+1.1
+mkdir C:\LAB6
+cd C:\LAB6
+
+1.2
+wmic os get Caption > os.txt
+wmic os get FreePhysicalMemory, TotalVisibleMemorySize > mem.txt
+wmic diskdrive get Model, Size > disk.txt
+
+1.3
+mkdir TEST
+copy * TEST
+cd TEST
+
+1.4
+copy * computer.txt
+
+1.5
+for %i in (*) do if NOT %i == COMPUTER.txt del /q %i

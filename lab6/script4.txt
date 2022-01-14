@@ -1,0 +1,5 @@
+4.1
+driverquery > drivers.txt
+
+4.2
+sort /r drivers.txt > sorted.txt

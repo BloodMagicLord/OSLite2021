@@ -1,0 +1,16 @@
+3.1
+net start XboxGipSvc
+net start > before.txt
+
+3.2.1
+net stop XboxGipSvc
+
+3.2.2
+sleep 1
+net start > after.txt
+
+3.2.3
+fc before.txt after.txt > difference.txt
+
+3.2.4
+net start XboxGipSvc
